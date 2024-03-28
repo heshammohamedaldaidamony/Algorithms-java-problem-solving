@@ -42,7 +42,6 @@ public class LeetCode_611 {
                     else if (nums[mid]>=target)
                         end=mid-1;
                 }
-                System.out.println(upper + " "+ lower);
                 if(upper>=0 && lower>=0)
                     count+=(upper-lower+1);
                 System.out.println(count);
@@ -50,8 +49,38 @@ public class LeetCode_611 {
         }
         return count;
     }
+    //why search for lower while it is the direct next for j
+    public static int triangleNumber_improved(int[] nums) {
+        int count =0;
+        Arrays.sort(nums);  // without sorting it will be n^3
+        for(int i =0 ; i<nums.length-2 ; i++){
+            for (int j = i+1 ; j<nums.length-1 ; j++){
+                int start=j+1;int end=nums.length-1;
+                int target=nums[i]+nums[j];
+                //upper bound
+                int upper=-1;
+                while (start<=end){
+                    int mid=start+(end-start)/2;
+                    if(nums[mid]<target){
+                        if(mid<nums.length-1 && nums[mid+1]<target){
+                            start=mid+1;
+                            continue;
+                        }
+                        upper=mid;
+                        break;
+                    }
+                    else if (nums[mid]>=target)
+                        end=mid-1;
+                }
+
+                if(upper>=0)
+                    count+=(upper-(j+1)+1);
+            }
+        }
+        return count;
+    }
     public static void main(String[] args) {
         int [] nums = {55,24,92,3,69,55,85};
-        System.out.println(triangleNumber(nums));
+        System.out.println(triangleNumber_improved(nums));
     }
 }
