@@ -2,7 +2,7 @@ package problems.homework2;
 
 import java.util.Arrays;
 
-public class LeetCode_1238 {
+public class LeetCode_1283 {
     //n
     public static int sumAfterDivision(int[] nums , int divisor){
         int sum=0;
