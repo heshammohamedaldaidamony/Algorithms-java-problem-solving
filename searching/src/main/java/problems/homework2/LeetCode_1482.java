@@ -23,7 +23,12 @@ public class LeetCode_1482 {
         return false;
     }
     public static int minDays(int[] bloomDay, int m, int k) {
-        int start=1;int end= Arrays.stream(bloomDay).max().getAsInt(); //n
+        int start=1;
+        int end=1;
+        for(int i =0 ; i<bloomDay.length;i++){
+            start=Math.min(start,bloomDay[i]);
+            end=Math.max(end,bloomDay[i]);
+        }   // there is no a day before the min the order will be ready . the first flower is ready at min how before the min will be there a ready flowers 
         int answer=-1;
         while (start<=end){
             int mid=start+(end-start)/2;
