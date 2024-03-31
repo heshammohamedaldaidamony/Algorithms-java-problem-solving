@@ -3,15 +3,10 @@ package problems.homework4;
 public class Spoj_Pie {
 
     public static boolean possible(double []pie , int people,double area){
-        int count=0;
-        for(int i =0 ;i <pie.length;i++){ //n (pie size) * n (pie[i] size)
-            double copy=pie[i];
-            while (copy>=area){
-                copy-=area;
-                count++;
-            }
-        }
-        return count>=people;
+        int canEat=0;
+        for(int i =0 ;i <pie.length;i++) //n (pie size) 
+            canEat+=pie[i]/area;
+        return canEat>=people;
     }
     static double pie(double []pieArea , int people) {
         double EPS = 1e-9;
