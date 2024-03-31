@@ -28,7 +28,7 @@ public class LeetCode_1482 {
         for(int i =0 ; i<bloomDay.length;i++){
             start=Math.min(start,bloomDay[i]);
             end=Math.max(end,bloomDay[i]);
-        }   // there is no a day before the min the order will be ready . the first flower is ready at min how before the min will be there a ready flowers 
+        }   // there is no a day before the min the order will be ready . the first flower is ready at min how before the min will be there a ready flowers
         int answer=-1;
         while (start<=end){
             int mid=start+(end-start)/2;
