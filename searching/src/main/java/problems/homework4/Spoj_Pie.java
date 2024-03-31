@@ -4,7 +4,7 @@ public class Spoj_Pie {
 
     public static boolean possible(double []pie , int people,double area){
         int canEat=0;
-        for(int i =0 ;i <pie.length;i++) //n (pie size) 
+        for(int i =0 ;i <pie.length;i++) //n (pie size)
             canEat+=pie[i]/area;
         return canEat>=people;
     }
@@ -18,7 +18,6 @@ public class Spoj_Pie {
             double mid = start + (end - start) / 2;
             if (possible(pieArea,people,mid))
                 start = mid;
-
             else
                 end = mid;
         }
