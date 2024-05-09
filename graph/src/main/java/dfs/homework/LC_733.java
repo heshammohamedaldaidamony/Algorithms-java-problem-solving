@@ -14,10 +14,16 @@ public class LC_733 {
             return ;
 
         graph[sr][sc]=newColor;
-        dfs(graph,sr+1,sc,oldColor,newColor);
-        dfs(graph,sr-1,sc,oldColor,newColor);
-        dfs(graph,sr,sc+1,oldColor,newColor);
-        dfs(graph,sr,sc-1,oldColor,newColor);
+//        dfs(graph,sr+1,sc,oldColor,newColor);
+//        dfs(graph,sr-1,sc,oldColor,newColor);
+//        dfs(graph,sr,sc+1,oldColor,newColor);
+//        dfs(graph,sr,sc-1,oldColor,newColor);   // what if he needs the 16 neighbors u will wirte that 16 times ?
+
+        //dir array trick
+        int [] dr={1,-1,0,0};
+        int [] dc={0,0,1,-1};
+        for (int i =0 ; i<dc.length;i++)
+            dfs(graph,sr+dr[i],sc+dc[i],oldColor,newColor);
     }
     public static int[][] floodFill(int[][] image, int sr, int sc,int color) {
         if(image[sr][sc]!=color)
