@@ -3,7 +3,7 @@ package dfs.homework;
 public class LC_1034 {
     public static boolean validBoundry(int[][] graph, int r, int c){
         for (int i =0 ; i<dc.length;i++){
-            if(!validIndex(graph,r+dr[i],c+dc[i]))
+            if(!validIndex(graph,r+dr[i],c+dc[i]) || graph[r+dr[i]][c+dc[i]]!=graph[r][c])
                 return true;
         }
         return false;
@@ -17,7 +17,7 @@ public class LC_1034 {
         return true;
     }
 
-    public static void dfs(int[][] graph,int r , int c,int oldColor ,int color, boolean[][] visited){
+    public static void dfs(int[][] graph, int r, int c, int oldColor, int color, boolean[][] visited){
         if(!validIndex(graph,r,c)  || graph[r][c]!=oldColor|| graph[r][c]==color||visited[r][c]==true)
             return;
         boolean validBoundry=validBoundry(graph,r,c);
