@@ -5,7 +5,7 @@ import java.util.*;
 public class LC_1743 {
     static List<Integer>  result;
     static HashMap<Integer, List<Integer>> graph;
-    static HashSet<Integer> visited;
+    static HashSet<Integer> visited; //use hashset to handle the negative values 
 
     public static int[] restoreArray(int[][] adjacentPairs) {
         buildGraph(adjacentPairs);
