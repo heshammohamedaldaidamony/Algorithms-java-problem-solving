@@ -8,16 +8,18 @@ public class LC_1202 {
     static List<Integer> [] graph;
     static List<Integer> nodes;
     public static String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
-        buildGraph(pairs);
+        buildGraph(s.length(),pairs);
         char[] charArray= s.toCharArray();
         for (int i =0 ; i<graph.length ; i++){
             if(!visited[i]) {
                 nodes = new ArrayList<>();
                 dfs(i);
 
-                String letters = "";
-                for (int l : nodes)
-                    letters += s.charAt(l);
+                StringBuilder sb = new StringBuilder();
+                for (int l : nodes) {
+                    sb.append(s.charAt(l));
+                }
+                String letters = sb.toString();
 
                 Collections.sort(nodes);
                 char[] charLetters= letters.toCharArray();
@@ -39,21 +41,14 @@ public class LC_1202 {
                dfs(i);
        }
     }
-    public  static void addUndirected(List<Integer> [] graph , int from , int to ){
-        graph[from].add(to);
-        graph[to].add(from);
-    }
-    public  static void buildGraph(List<List<Integer>> pairs){
-        int graphSize=0;
-        for (List<Integer> pair : pairs) {
-            graphSize = Math.max(graphSize, Math.max(pair.get(0), pair.get(1)));
-        }
-
+    public  static void buildGraph(int graphSize , List<List<Integer>> pairs){
         graph = new List[graphSize];
         for (int i =0  ;i<graphSize; i++)
             graph[i]=new ArrayList<>();
-        for (List<Integer> pair : pairs)
-            addUndirected(graph, pair.get(0), pair.get(1));
+        for (List<Integer> pair : pairs){
+            graph[pair.get(0)].add(pair.get(1));
+            graph[pair.get(1)].add(pair.get(0));
+        }
 
         visited = new boolean[graphSize];
     }
