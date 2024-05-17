@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LC_1743 {
     static List<Integer>  result;
-    static HashMap<Integer, List<Integer>> graph;
+    static HashMap<Integer, List<Integer>> graph; // use list of list cant handle represingting the nodes . u want to represent the node(as a value not as an index) and the list of edges
     static HashSet<Integer> visited; //use hashset to handle the negative values 
 
     public static int[] restoreArray(int[][] adjacentPairs) {
