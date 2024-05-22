@@ -6,25 +6,30 @@ import java.util.Queue;
 
 public class LC_752 {
     public  int openLock(String[] deadends, String target) {
+        for (String s : deadends)
+            visited.add(s);
         return bfs2(deadends,target);
     }
      HashSet<String> visited = new HashSet<>();
 
-    public  String converter(String current,int index , int convertTo){
-        StringBuilder sb = new StringBuilder(current);
-        if (convertTo >0)
-            sb.setCharAt(index, (char) (sb.charAt(index) + 1 % 10));
-        else
-            sb.setCharAt(index, (char) (sb.charAt(index) -1 + 10 % 10));
-
-        return sb.toString();
+    public String converter(String current, int index, int convertTo) {
+        char[] chars = current.toCharArray();
+        if (convertTo > 0) {
+            chars[index] = (char) ((chars[index] - '0' + 1) % 10 + '0');
+        } else {
+            chars[index] = (char) ((chars[index] - '0' - 1 + 10) % 10 + '0');
+        }
+        return new String(chars);
     }
     public  int bfs2(String[] deadends, String target) {
         Queue<String> queue = new LinkedList<>();
-        queue.add("0000");
-        visited.add("0000");
-        for (String s : deadends)
-            visited.add(s);
+        String start = "0000";
+
+        if(visited.contains(start))
+            return -1;
+        queue.add(start);
+        visited.add(start);
+
 
         for (int size = 1 , level =0 ; !queue.isEmpty() ; size = queue.size() , level++) {
             while (size != 0) {
