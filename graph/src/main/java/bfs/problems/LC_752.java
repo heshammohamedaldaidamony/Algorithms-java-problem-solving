@@ -27,6 +27,9 @@ public class LC_752 {
 
         if(visited.contains(start))
             return -1;
+        if(target.equals(start))
+            return 0;
+
         queue.add(start);
         visited.add(start);
 
@@ -55,8 +58,8 @@ public class LC_752 {
     }
 
     public static void main(String[] args) {
-        String deadEnds [] ={"8887","8889","8878","8898","8788","8988","7888","9888"};
-        String target ="8888";
+        String deadEnds [] ={"0201","0101","0102","1212","2002"};
+        String target ="0000";
         System.out.println(new LC_752().openLock(deadEnds,target));
     }
 }
