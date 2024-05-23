@@ -5,44 +5,45 @@ import bfs.Pair;
 import java.util.*;
 
 public class LC_286 {
-    int INF=2147483647;
-     int [] dr={-1,1,0,0};
-     int [] dc={0,0,1,-1};
+ // o(v+e) not v*(v+e) 
     public void wallsAndGates(int[][] rooms){
+        int INF=2147483647;
+        int [] dr={-1,1,0,0};
+        int [] dc={0,0,1,-1};
+        Queue<Pair> queue = new LinkedList<>();
+        int [][] visited = new int[rooms.length][rooms[0].length];
+
         for(int i =0 ; i<rooms.length ; i++){
             for (int j =0 ; j <rooms[i].length ; j++){
-                if(rooms[i][j]==INF)
-                    rooms[i][j] = bfs2(rooms , i,j);
+                if(rooms[i][j]==0){
+                    queue.add(new Pair(i,j));
+                    visited[i][j]=1;
+                }
             }
         }
-    }
-    public  boolean validIndex(int[][] graph, int from, int to){
-        if(from<0 ||to<0 ||from >= graph.length   || to >= graph[from].length || graph[from][to]==-1){
-            return false;
-        }
-        return true;
-    }
-    public  int  bfs2(int[][] rooms, int startRow , int startCol) {
-        Queue<Pair> queue = new LinkedList<>();
-        queue.add(new Pair(startRow,startCol));
 
-
-        for (int size = 1 , level =0  ; !queue.isEmpty() ; size = queue.size() , level++ ) {
+        for (int size = queue.size(), level =0  ; !queue.isEmpty() ; size = queue.size() , level++ ) {
             while (size != 0) {
                 Pair current =queue.remove();
-                if(rooms[current.first][current.second] == 0 )
-                    return level;
                 for (int i =0 ; i<dc.length ; i++){
-                    if(validIndex(rooms,current.first+dr[i],current.second+dc[i]))
+                    if(validIndex(rooms,current.first+dr[i],current.second+dc[i])
+                            && visited[current.first+dr[i]][current.second+dc[i]]!=1
+                            && rooms[current.first+dr[i]][current.second+dc[i]]==INF){
+                        rooms[current.first+dr[i]][current.second+dc[i]] = level+1 ;
                         queue.add(new Pair(current.first+dr[i],current.second+dc[i]));
-
+                        visited[current.first+dr[i]][current.second+dc[i]]=1;
+                    }
                 }
                 size--;
             }
         }
-        return INF;
     }
-
+    public  boolean validIndex(int[][] graph, int from, int to){
+        if(from<0 ||to<0 ||from >= graph.length   || to >= graph[from].length ){
+            return false;
+        }
+        return true;
+    }
     public static void main(String[] args) {
         int [][] rooms = {{2147483647, -1, 0, 2147483647},
                 {2147483647, 2147483647, 2147483647, -1},
