@@ -5,7 +5,7 @@ import bfs.Pair;
 import java.util.*;
 
 public class LC_286 {
- // o(v+e) not v*(v+e) 
+ // o(v+e) not v*(v+e)
     public void wallsAndGates(int[][] rooms){
         int INF=2147483647;
         int [] dr={-1,1,0,0};
