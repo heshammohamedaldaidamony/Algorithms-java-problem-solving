@@ -16,27 +16,26 @@ public class LC_417 {
     }
     List<List<Integer>> result = new ArrayList<>();
     int [][] visited ;
+    int [][] valid ;
      int [] dr={-1,1,0,0};
      int [] dc={0,0,1,-1};
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        valid=new int[heights.length][heights[0].length];
         for (int i =0 ; i<heights.length ; i++){
             for (int j =0 ; j<heights[i].length ; j++){
-                for (int h =0 ; h<4; h++){
-                    if(!validIndex(heights,i+dr[h],j+dc[h]) || heights[i+dr[h]][j+dc[h]]<=heights[i][j]){   // dont make bfs on invalid nodes 
                         if(pacific(heights,i,j) && atlantic(heights,i,j)) {
+                            valid[i][j]=2;
                             result.add(Arrays.asList(i, j));
-                            break;
                         }
-                    }
-                }
+
 
             }
         }
         return result;
     }
     public boolean pacific (int[][] heights, int r , int c){
-        visited=new int[heights.length][heights[r].length];
+        visited=new int[heights.length][heights[0].length];
         Queue<Pair> queue = new LinkedList<>();
         queue.add(new Pair(r,c));
         visited[r][c]=1;
@@ -50,8 +49,10 @@ public class LC_417 {
                     if(validIndex(heights,current.first+dr[i],current.second+dc[i])
                             && heights[current.first][current.second] >= heights[current.first+dr[i]][current.second+dc[i]]
                             && visited[current.first+dr[i]][current.second+dc[i]]!=1) {
-                        queue.add(new Pair(current.first+dr[i],current.second+dc[i]));
                         visited[current.first+dr[i]][current.second+dc[i]]=1;
+                        if(valid[current.first+dr[i]][current.second+dc[i]]==2)
+                            return true;
+                        queue.add(new Pair(current.first+dr[i],current.second+dc[i]));
                     }
 
                 }
@@ -61,7 +62,7 @@ public class LC_417 {
         return false;
     }
     public boolean atlantic (int[][] heights, int r , int c){
-        visited=new int[heights.length][heights[r].length];
+        visited=new int[heights.length][heights[0].length];
         Queue<Pair> queue = new LinkedList<>();
         queue.add(new Pair(r,c));
         visited[r][c]=1;
@@ -75,8 +76,10 @@ public class LC_417 {
                     if(validIndex(heights,current.first+dr[i],current.second+dc[i])
                             && heights[current.first][current.second] >= heights[current.first+dr[i]][current.second+dc[i]]
                             && visited[current.first+dr[i]][current.second+dc[i]]!=1) {
-                        queue.add(new Pair(current.first+dr[i],current.second+dc[i]));
                         visited[current.first+dr[i]][current.second+dc[i]]=1;
+                        if(valid[current.first+dr[i]][current.second+dc[i]]==2)
+                            return true;
+                        queue.add(new Pair(current.first+dr[i],current.second+dc[i]));
                     }
                 }
                 size--;
