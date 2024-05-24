@@ -20,11 +20,17 @@ public class LC_417 {
      int [] dc={0,0,1,-1};
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
-
         for (int i =0 ; i<heights.length ; i++){
             for (int j =0 ; j<heights[i].length ; j++){
-                if(pacific(heights,i,j) && atlantic(heights,i,j))
-                    result.add(Arrays.asList(i,j));
+                for (int h =0 ; h<4; h++){
+                    if(!validIndex(heights,i+dr[h],j+dc[h]) || heights[i+dr[h]][j+dc[h]]<=heights[i][j]){   // dont make bfs on invalid nodes 
+                        if(pacific(heights,i,j) && atlantic(heights,i,j)) {
+                            result.add(Arrays.asList(i, j));
+                            break;
+                        }
+                    }
+                }
+
             }
         }
         return result;
