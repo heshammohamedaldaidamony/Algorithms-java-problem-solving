@@ -1,48 +1,50 @@
 package bfs.problems;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class LC_1129 {
     public class Pair {
-        public int color;  // red =1 , blue = 2
         public int value;
+        public int color;
 
-        public Pair(int color, int value) {
+        public Pair( int value ,int color) {
             this.color = color;
             this.value = value;
         }
     }
     List<Pair> [] graph ;
     int [] result ;
+    final int RED=0;
+    final int BLUE=1;
     public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
+        //initializations
         result= new int[n];
         for (int i=0 ; i< result.length ; i++)
             result[i]=-1;    // cant reach it or not valid
+
         buildGraph(n,redEdges,blueEdges);
-        bfs();
+        bfs(n);
         return result;
     }
-    public void bfs (){
+    public void bfs (int n){
+        int[][] visited = new int[n][2];
         Queue<Pair> queue = new LinkedList<>();
-        boolean[] visited = new boolean[graph.length];
-        queue.add(new Pair(0,0));   // 0 means no color
-        visited[0]=true;
+        queue.add(new Pair(0,RED));
+        queue.add(new Pair(0,BLUE));
+        result[0]=0;   //special case
+        visited[0][RED]=1;
+        visited[0][BLUE]=1;
 
-        for (int size = 1 , level =0 ; !queue.isEmpty() ; size = queue.size() , level++) {
-
+        for (int size = queue.size(), level =0 ; !queue.isEmpty() ; size = queue.size() , level++) {
             while (size != 0) {
                 Pair current = queue.remove();
                 int prevColor=current.color;
-                if(current.value==0)
-                    result[current.value]=level;
+
                 for(Pair i : graph[current.value]){
-                    if(!visited[i.value]){
+                    if(i.color != prevColor && visited[i.value][i.color]!=1){
                         queue.add(i);
-                        visited[i.value]=true;
-                        if(i.color!=prevColor)
+                        visited[i.value][i.color]=1;
+                        if(result[i.value]==-1)
                             result[i.value]=level+1;
                     }
                 }
@@ -55,18 +57,20 @@ public class LC_1129 {
         for (int i =0 ; i<graph.length ; i++)
             graph[i]=new ArrayList<>();
         for (int [] inList : redEdges)
-            graph[inList[0]].add(new Pair(1,inList[1]));
+            graph[inList[0]].add(new Pair(inList[1],RED));
         for (int [] inList : blueEdges)
-            graph[inList[0]].add(new Pair(2,inList[1]));
+            graph[inList[0]].add(new Pair(inList[1],BLUE));
     }
 
     public static void main(String[] args) {
-        int n = 5;
-        int [][]redEdges ={{0,1},{1,2},{2,3},{3,4}};
-        int [][] blueEdges ={{1,2},{2,3},{3,1}};
-//        Output
-//                [0,1,-1,-1,-1]
-//        Expected
-//                [0,1,2,3,7]
+        int n = 3;
+        int [][]redEdges ={{0,1},{0,2}};
+        int [][] blueEdges ={{1,0}};
+
+        LC_1129 lc1129 = new LC_1129();
+
+        for (int i : lc1129.shortestAlternatingPaths(n,redEdges,blueEdges))
+            System.out.print( i + " ");
     }
+
 }
