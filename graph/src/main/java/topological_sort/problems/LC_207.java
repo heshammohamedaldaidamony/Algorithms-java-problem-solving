@@ -1,22 +1,12 @@
 package topological_sort.problems;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class LC_207 {
     List<Integer> [] graph  ;
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         buildGraph(numCourses,prerequisites);
-        return topoSort(graph);
-    }
-    public void buildGraph(int numCourses, int[][] prerequisites){
-        graph= new ArrayList[numCourses];
-        for (int i =0 ; i<numCourses ; i++)
-            graph[i]=new ArrayList<>();
-        for (int[] i : prerequisites)
-            graph[i[1]].add(i[0]);
+        return topoSort();
     }
     public boolean topoSort(List<Integer>[] graph){
         int[] inDegree = new int[graph.length];
@@ -41,4 +31,18 @@ public class LC_207 {
             return false;
         return true;
     }
+    public void buildGraph(int numCourses, int[][] prerequisites){
+        graph= new ArrayList[numCourses];
+        for (int i =0 ; i<numCourses ; i++)
+            graph[i]=new ArrayList<>();
+        for (int[] i : prerequisites)
+            graph[i[1]].add(i[0]);
+    }
+
+    public static void main(String[] args) {
+        int numCourses= 2;
+        int[][] prerequisites={{1,0},{0,1}};
+        System.out.println(new LC_207().canFinish(numCourses,prerequisites));
+    }
+
 }
