@@ -13,8 +13,8 @@ public class TopologicalSort {
                 inDegree[j]++;
 
         Queue<Integer> readyQueue = new LinkedList<>();
-        for (int i : inDegree)
-            if(i==0)
+        for (int i =0 ; i<inDegree.length ; i++)
+            if(inDegree[i]==0)
                 readyQueue.add(i);
 
         List<Integer> result = new ArrayList<>();
