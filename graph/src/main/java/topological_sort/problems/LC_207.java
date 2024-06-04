@@ -8,7 +8,7 @@ public class LC_207 {
         buildGraph(numCourses,prerequisites);
         return topoSort();
     }
-    public boolean topoSort(List<Integer>[] graph){
+    public boolean topoSort(){
         int[] inDegree = new int[graph.length];
         for (int i =0  ; i <graph.length ;i++)
             for (int j : graph[i])
