@@ -6,10 +6,11 @@ public class LC_310 {
     List<Integer>[] graph  ;
     List<Integer>[] levelNodes;
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        List<Integer> result = new ArrayList<>();
+        List<Integer> result ;
         buildGraph(n,edges);
 
         int maxLevel=bfs(n);
+        System.out.println(maxLevel);
         result=levelNodes[maxLevel/2];
         if(maxLevel%2 ==0){
             for(int i : levelNodes[maxLevel/2-1])
@@ -42,7 +43,7 @@ public class LC_310 {
             while (size != 0) {
                 int current = readyQueue.remove();
                 if(inDegree[current]!=1)
-                levelNodes[level].add(current);
+                    levelNodes[level].add(current);
                 for (int i : graph[current])
                     if(visited[i]!=1){
                         readyQueue.add(i);
