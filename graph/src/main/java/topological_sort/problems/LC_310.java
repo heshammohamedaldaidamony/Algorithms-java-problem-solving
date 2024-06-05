@@ -6,13 +6,16 @@ public class LC_310 {
     List<Integer>[] graph  ;
     List<Integer>[] levelNodes;
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if(n==1)
+            return Arrays.asList(new Integer []{0});
         List<Integer> result ;
         buildGraph(n,edges);
-
         int maxLevel=bfs(n);
-        System.out.println(maxLevel);
+        if(n>2)
+            maxLevel+=2;
         result=levelNodes[maxLevel/2];
-        if(maxLevel%2 ==0){
+        System.out.println(maxLevel);
+        if( maxLevel!=0 && maxLevel%2 ==0){  //special case
             for(int i : levelNodes[maxLevel/2-1])
                 result.add(i);
         }
@@ -31,7 +34,6 @@ public class LC_310 {
             if(inDegree[i]==1){
                 readyQueue.add(i);
                 visited[i]=1;
-                break;
             }
         }
         levelNodes=new ArrayList[n];
@@ -39,11 +41,10 @@ public class LC_310 {
             levelNodes[i]=new ArrayList<>();
 
         int level =0;
-        for (int size = 1; !readyQueue.isEmpty() ; size = readyQueue.size() , level++) {
+        for (int size = readyQueue.size(); !readyQueue.isEmpty() ; size = readyQueue.size() , level++) {
             while (size != 0) {
                 int current = readyQueue.remove();
-                if(inDegree[current]!=1)
-                    levelNodes[level].add(current);
+                levelNodes[level].add(current);
                 for (int i : graph[current])
                     if(visited[i]!=1){
                         readyQueue.add(i);
@@ -67,8 +68,8 @@ public class LC_310 {
     }
 
     public static void main(String[] args) {
-        int n = 4;
-        int [][] edges ={{1,0},{1,2},{1,3}};
+        int n = 7;
+        int [][] edges ={{0, 1}, {1, 2}, {1, 3}, {2, 4}, {3, 5}, {4, 6}};
         System.out.println(new LC_310().findMinHeightTrees(n,edges));
     }
 }
