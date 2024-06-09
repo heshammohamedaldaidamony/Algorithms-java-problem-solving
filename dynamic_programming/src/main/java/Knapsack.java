@@ -36,7 +36,7 @@ public class Knapsack {
 
         return Math.max(choice1,choice2);
     }
-    public int knapsack2(int[] weights,int[]values ,int maxSize , int remainingSize, int start){
+    public int knapsack2(int[] weights,int[]values, int remainingSize, int start){
         if ( start==result.length){
             int sumValues=0;
             for (int i =0 ; i<result.length ; i++){
@@ -46,15 +46,16 @@ public class Knapsack {
             return sumValues;
         }
         result[start]=-1;   // leave
-        int choice1=knapsack(weights, values,maxSize, start+1) ;
+        int choice1=knapsack2(weights, values,remainingSize, start+1) ;
 
         int choice2=0;
-        if (remainingSize <= weights[start]){
+        if (remainingSize >= weights[start]){
             result[start]=weights[start];    // pick
-            choice2= knapsack(weights, values,maxSize, start+1);
+            choice2= knapsack2(weights, values,remainingSize-weights[start], start+1);
         }
         return Math.max(choice1,choice2);
     }
+    
 
 
     public static void main(String[] args) {
@@ -66,7 +67,7 @@ public class Knapsack {
         new Knapsack().fillArray();
         System.out.println(new Knapsack().knapsack(weights,values,maxSize,start));
         new Knapsack().fillArray();
-        System.out.println(new Knapsack().knapsack2(weights,values,maxSize,maxSize,start));
+        System.out.println(new Knapsack().knapsack2(weights,values,maxSize,0));
 
 
     }
