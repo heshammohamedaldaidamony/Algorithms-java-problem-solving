@@ -55,7 +55,18 @@ public class Knapsack {
         }
         return Math.max(choice1,choice2);
     }
-    
+    public int knapsack3(int[] weights,int[]values, int remainingSize, int start){
+        if ( start==result.length)
+            return 0;
+
+        int choice1=knapsack3(weights, values,remainingSize, start+1) ; // leave
+        int choice2=0;
+        if (remainingSize >= weights[start])  //pick
+            choice2=values[start]+ knapsack3(weights, values,remainingSize-weights[start], start+1);
+
+        return Math.max(choice1,choice2);
+    }
+
 
 
     public static void main(String[] args) {
@@ -68,6 +79,8 @@ public class Knapsack {
         System.out.println(new Knapsack().knapsack(weights,values,maxSize,start));
         new Knapsack().fillArray();
         System.out.println(new Knapsack().knapsack2(weights,values,maxSize,0));
+        new Knapsack().fillArray();
+        System.out.println(new Knapsack().knapsack3(weights,values,maxSize,0));
 
 
     }
