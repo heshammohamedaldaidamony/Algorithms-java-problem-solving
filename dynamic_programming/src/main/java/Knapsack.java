@@ -55,16 +55,22 @@ public class Knapsack {
         }
         return Math.max(choice1,choice2);
     }
+    //without memoization it is o(n^2)
+    // with it is o(n*m)
+    int [][] memory = new int[1000][1000];
     public int knapsack3(int[] weights,int[]values, int remainingSize, int start){
         if ( start==result.length)
             return 0;
-
+        if(memory[start][remainingSize]!=0)
+            return memory[start][remainingSize];
+        
         int choice1=knapsack3(weights, values,remainingSize, start+1) ; // leave
         int choice2=0;
         if (remainingSize >= weights[start])  //pick
             choice2=values[start]+ knapsack3(weights, values,remainingSize-weights[start], start+1);
 
-        return Math.max(choice1,choice2);
+        memory[start][remainingSize]= Math.max(choice1,choice2);
+        return memory[start][remainingSize];
     }
 
 
