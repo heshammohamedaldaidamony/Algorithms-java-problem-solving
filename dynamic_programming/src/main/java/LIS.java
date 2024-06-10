@@ -66,11 +66,21 @@ public class LIS {
         }
         return longestSubsequence;
     }
+    // o(n)
+    public int longestIncreasingSubsequence_improved(int [] sequence){
+        int[] updatedArray=new int[sequence.length+1];
+        updatedArray[0]=Integer.MIN_VALUE;
+        for (int i =0 ; i<sequence.length ; i++){
+            updatedArray[i+1]=sequence[i];
+        }
+        return lis3(updatedArray,0) -1;
+    }
     public static void main(String[] args) {
         int [] array = {15,2,7,4,6,9};
         System.out.println(new LIS().lis(array,-1,0));
         System.out.println(new LIS().lis2(array,array.length,0)); // -1 as the initial value for prev makes a problem . solve it flagging
         System.out.println(new LIS().longestIncreasingSubsequence(array));
+        System.out.println(new LIS().longestIncreasingSubsequence_improved(array));
 
     }
 
