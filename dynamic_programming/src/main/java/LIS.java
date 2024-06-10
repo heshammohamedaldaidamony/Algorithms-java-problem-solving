@@ -66,7 +66,6 @@ public class LIS {
         }
         return longestSubsequence;
     }
-    // o(n)
     public int longestIncreasingSubsequence_improved(int [] sequence){
         int[] updatedArray=new int[sequence.length+1];
         updatedArray[0]=Integer.MIN_VALUE;
