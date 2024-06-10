@@ -46,11 +46,31 @@ public class LIS {
         return memory[start][previous];
     }
 
+    int [] memory1 = new int[50];
+    public int lis3(int [] sequence, int start){
+        if ( start==sequence.length)
+            return 0;
+        if(memory1[start]!=0)
+            return memory1[start];
+
+        for (int i =start+1 ; i<sequence.length ; i++){
+            if(sequence[i]>sequence[start])
+                memory1[start] = Math.max(memory1[start],lis3(sequence,i));
+        }
+        return ++memory1[start];
+    }
+    public int longestIncreasingSubsequence(int [] sequence){
+        int longestSubsequence=0;
+        for (int i =0 ; i<sequence.length ; i++){
+            longestSubsequence=Math.max(longestSubsequence,lis3(sequence,i));
+        }
+        return longestSubsequence;
+    }
     public static void main(String[] args) {
         int [] array = {15,2,7,4,6,9};
         System.out.println(new LIS().lis(array,-1,0));
         System.out.println(new LIS().lis2(array,array.length,0)); // -1 as the initial value for prev makes a problem . solve it flagging
-
+        System.out.println(new LIS().longestIncreasingSubsequence(array));
 
     }
 
