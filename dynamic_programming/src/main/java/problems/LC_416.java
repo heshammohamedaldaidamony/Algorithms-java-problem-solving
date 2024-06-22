@@ -7,18 +7,16 @@ public class LC_416 {
     public boolean canPartition(int[] nums) {
         for (int i : nums)
             totalSum+=i;
-        if(totalSum%2!=0)  // cant be partitioned
+        if(totalSum%2!=0)  // cant be paritioned
             return false;
-
-        memo=new Boolean[nums.length][totalSum];
+        memo=new Boolean[nums.length][totalSum/2 +1];
         return PESS(nums,0,0);
     }
     public boolean PESS(int[] nums , int i , int currentSum){
-        if(i == nums.length ){
-            if(totalSum==currentSum*2)
-                return true;
+        if(totalSum==currentSum*2)
+            return true;
+        if(currentSum>totalSum/2 || i == nums.length )
             return false;
-        }
 
         if(memo[i][currentSum]!=null)
             return memo[i][currentSum];
