@@ -1,21 +1,12 @@
 package problems;
 
 public class LC_1671 {
-    int [] memoryLIS ;
-    int [] memoryLDS ;
-    int startLIS;
-    int startLDS;
+    final int UP=1;
+    final int DOWN=0;
+    int start;
+    int end;
+    int memo[][][];
     public int minimumMountainRemovals(int[] nums) {
-        int n = nums.length;
-        memoryLIS = new int[n + 1];
-        memoryLDS = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= n; j++) {
-                memoryLIS[i] = -1;
-                memoryLDS[i] = -1;
-            }
-        }
-
         // an optimization
         // depends on the mountain constraint . i start form up so why dont search for the start of up
         int i=1 ;
@@ -26,48 +17,32 @@ public class LC_1671 {
         for (; j>0;j--)
             if(nums[j-1]>nums[j])
                 break;
-        startLIS=i-1;
-        startLDS=j;
-
-        int longestDecreasing=0;
-        for (int l =startLIS ;l<=startLDS;l++ ){
-            int lis=LIS(nums,l);
-            int lds=LDS(nums,l);
-
-            if(lis==1 || lds ==1)
-                continue; // mountain must have 3+ values
-            longestDecreasing=Math.max(longestDecreasing,lis+lds-1);
-        }
-        return nums.length-longestDecreasing;
+        start =i-1;
+        end =j;
+        memo=new int[nums.length-1][nums.length][2];
+        for (int r=0 ; r<memo.length;r++)
+            for (int c=0 ; c<memo.length;c++)
+                memo[r][c][0]=memo[r][c][1]=-1;
+        return nums.length-minimumMountainRemovals(nums,start,-1,UP);
     }
 
-    public int LIS(int [] sequence, int start){
-        if ( start==-1 )
-            return 0;
-        if(memoryLIS[start]!=-1)
-            return memoryLIS[start];
 
-        memoryLIS[start]=0;  // to wont be corrupted with memoryLIS[start]++; if it equals -1
-        for (int prev =start-1 ; prev>=0; prev--){
-            if(sequence[prev] < sequence[start])
-                memoryLIS[start]=Math.max(memoryLIS[start],LIS(sequence,prev));
-        }
-        memoryLIS[start]++;  // this trick instead of 1+LIS to handle -1
-        return memoryLIS[start];
-    }
-    public int LDS(int [] sequence, int start ){
-        if ( start==sequence.length )
+    public int minimumMountainRemovals(int[] nums,int idx , int prev,int state) {
+        if(idx>end)
             return 0;
-        if(memoryLDS[start]!=-1)
-            return memoryLDS[start];
+        if(prev!=-1 && memo[idx][prev][state]!=-1)
+            return memo[idx][prev][state];
 
-        memoryLDS[start]=0;
-        for (int next =start+1 ; next<sequence.length ; next++){
-            if(sequence[next] < sequence[start])
-                memoryLDS[start]=Math.max(memoryLDS[start],LDS(sequence,next));
-        }
-        memoryLDS[start]++;
-        return memoryLDS[start];
+        int choice1 = minimumMountainRemovals(nums,idx+1,prev,state); //leave
+        int choice2=0;
+        int choice3=0;
+        if(prev==-1 || (state==UP && nums[idx]>nums[prev]) )
+            choice2=1+minimumMountainRemovals(nums,idx+1,idx,UP);
+        else if(nums[idx]<nums[prev])
+            choice3=1+minimumMountainRemovals(nums,idx+1,idx,DOWN);
+        if(prev!=-1)
+            memo[idx][prev][state]=Math.max(choice1,Math.max(choice2,choice3));
+        return Math.max(choice1,Math.max(choice2,choice3));
     }
 
     public static void main(String[] args) {
