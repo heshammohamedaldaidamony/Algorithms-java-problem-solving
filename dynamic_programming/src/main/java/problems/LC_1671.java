@@ -19,7 +19,7 @@ public class LC_1671 {
                 break;
         start =i-1;
         end =j;
-        memo=new int[nums.length-1][nums.length][2];
+        memo=new int[nums.length][nums.length][2];
         for (int r=0 ; r<memo.length;r++)
             for (int c=0 ; c<memo.length;c++)
                 memo[r][c][0]=memo[r][c][1]=-1;
@@ -36,7 +36,7 @@ public class LC_1671 {
         int choice1 = minimumMountainRemovals(nums,idx+1,prev,state); //leave
         int choice2=0;
         int choice3=0;
-        if(prev==-1 || (state==UP && nums[idx]>nums[prev]) )
+        if(prev==-1 || (state==UP && nums[idx]>nums[prev]) )// when i down i cant up again so up validation here is must without it . it will go up down up and this is wrong
             choice2=1+minimumMountainRemovals(nums,idx+1,idx,UP);
         else if(nums[idx]<nums[prev])
             choice3=1+minimumMountainRemovals(nums,idx+1,idx,DOWN);
@@ -46,7 +46,7 @@ public class LC_1671 {
     }
 
     public static void main(String[] args) {
-        int[] nums={4,3,2,1,1,2,3,1};
+        int[] nums={1,2,3,4,5};
         System.out.println(new LC_1671().minimumMountainRemovals(nums));
     }
 }
