@@ -16,21 +16,21 @@ public class LC_1671 {
             }
         }
 
-//        // an optimization
-//        // depends on the mountain constraint . i start form up so why dont search for the start of up
-//        int i=1 ;
-//        for (; i<nums.length;i++)
-//            if(nums[i]>nums[i-1])
-//                break;
-//        int j=nums.length-1 ;
-//        for (; j>0;j--)
-//            if(nums[j-1]>nums[j])
-//                break;
-//        startLIS=i-1;
-//        startLDS=j;
+        // an optimization
+        // depends on the mountain constraint . i start form up so why dont search for the start of up
+        int i=1 ;
+        for (; i<nums.length;i++)
+            if(nums[i]>nums[i-1])
+                break;
+        int j=nums.length-1 ;
+        for (; j>0;j--)
+            if(nums[j-1]>nums[j])
+                break;
+        startLIS=i-1;
+        startLDS=j;
 
         int longestDecreasing=0;
-        for (int l =0 ;l<nums.length;l++ ){
+        for (int l =startLIS ;l<=startLDS;l++ ){
             int lis=LIS(nums,l);
             int lds=LDS(nums,l);
 
