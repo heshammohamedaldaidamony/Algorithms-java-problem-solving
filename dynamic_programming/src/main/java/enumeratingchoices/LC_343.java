@@ -18,7 +18,7 @@ public class LC_343 {
 
         int max=n;
         for (int i =1 ; i< n ; i++)   //we considere the n in the previous line
-            max=Math.max(max,i * productSum(n-i));
+            max=Math.max(max,i * productSum(n-i));   // 3 here will return 3 the initial max=n why not 1*2 . that handled with special cases
 
         memo[n]=max;
         return max;
