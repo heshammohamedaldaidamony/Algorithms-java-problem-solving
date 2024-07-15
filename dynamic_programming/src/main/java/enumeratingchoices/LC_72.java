@@ -31,9 +31,8 @@ public class LC_72 {
         int choice2= 1+edit(i+1, j);  // remove from str2 , insert in str2
         int choice3= 1+edit(i+1,j+1);  //change operation
 
-        int min = Math.min(Math.min(choice1, choice2), choice3);
-        memo[i][j]= min;
-        return min;
+        memo[i][j]= Math.min(Math.min(choice1,choice2),choice3);
+        return Math.min(Math.min(choice1,choice2),choice3);
     }
 
     public static void main(String[] args) {
