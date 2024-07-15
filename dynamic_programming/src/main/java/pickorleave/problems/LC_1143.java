@@ -1,4 +1,4 @@
-package problems;
+package pickorleave.problems;
 
 public class LC_1143 {
     public int longestCommonSubsequence(String text1, String text2) {  // o(n^2)

@@ -1,7 +1,6 @@
-import java.io.LineNumberInputStream;
-import java.nio.charset.IllegalCharsetNameException;
+package pickorleave;
+
 import java.util.Arrays;
-import java.util.List;
 
 public class Knapsack {
     public void print(int[] array){
@@ -61,9 +60,10 @@ public class Knapsack {
     public int knapsack3(int[] weights,int[]values, int remainingSize, int start){
         if ( start==result.length)
             return 0;
+
         if(memory[start][remainingSize]!=0)
             return memory[start][remainingSize];
-        
+
         int choice1=knapsack3(weights, values,remainingSize, start+1) ; // leave
         int choice2=0;
         if (remainingSize >= weights[start])  //pick

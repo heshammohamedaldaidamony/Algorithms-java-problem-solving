@@ -1,4 +1,4 @@
-package problems;
+package pickorleave.problems;
 
 public class SubsetSum {
     public boolean subsetSum(int[] nums , int target){
@@ -13,7 +13,7 @@ public class SubsetSum {
         if(idx== nums.length)
             return false;
         if (subsetSum2(nums, idx+1,target))
-        return true;
+            return true;
         return  subsetSum2(nums, idx+1,target-nums[idx]);
 
     }

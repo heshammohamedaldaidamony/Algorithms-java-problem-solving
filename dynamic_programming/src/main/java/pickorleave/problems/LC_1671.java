@@ -1,4 +1,4 @@
-package problems;
+package pickorleave.problems;
 
 public class LC_1671 {
     final int UP=1;

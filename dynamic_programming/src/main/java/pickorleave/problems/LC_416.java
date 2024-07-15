@@ -1,4 +1,4 @@
-package problems;
+package pickorleave.problems;
 
 public class LC_416 {
     // this problem can be solved in 2^n time using hash set .  calculate all the valid sums and store them in the hash and the check if the hash contains totalsum/2

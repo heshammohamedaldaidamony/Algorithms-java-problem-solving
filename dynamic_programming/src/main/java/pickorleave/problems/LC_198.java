@@ -1,4 +1,4 @@
-package problems;
+package pickorleave.problems;
 
 public class LC_198 {
     int [][] memo;
