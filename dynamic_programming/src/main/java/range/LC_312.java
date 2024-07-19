@@ -32,7 +32,7 @@ public class LC_312 {
             return 0;
         int maxCoins=0;
         for (int i =0 ; i<nums.length ; i++){
-            if (memo[i][order]!=-1)   // the bug is here 
+            if (memo[i][order]!=-1)   // the bug is here
                 return memo[i][order];
             if(nums[i]==-1)
                 continue;
