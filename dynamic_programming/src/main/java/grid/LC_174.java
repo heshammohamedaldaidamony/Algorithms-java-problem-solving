@@ -14,34 +14,40 @@ public class LC_174 {
         this.dungeon=dungeon;
         this.memo=new Boolean[dungeon.length][dungeon[0].length][1000*200];
 
-        //reverse thinking
-        int result=1;
-        for (int i=negatives; i>0 ; i--)
-            if(dp(0,0,i))
-                result=i;    //without any minimizaton so the i less by itself
 
-        return result;
+        int result=dp(0,0);
+        if (result<0)
+            return 1-result;
+        else
+            return 1;
     }
-    public boolean dp(int r, int c , int health){
+    public int dp(int r, int c ){
         if(r>=dungeon.length || c>=dungeon[r].length)  //just valid right and down directions
-            return false;
-        if(health+dungeon[r][c]<=0)
-            return false;
-        if (health>=1 && r==dungeon.length-1 && c==dungeon[r].length-1)
-            return true;
-        if (memo[r][c][health]!=null)
-            return memo[r][c][health];
+            return Integer.MAX_VALUE/2;
+        if (r==dungeon.length-1 && c==dungeon[r].length-1)
+            return dungeon[dungeon.length-1 ][dungeon[r].length-1];
 
-        boolean right= dp(r,c+1 ,health+dungeon[r][c]);
-        boolean down=dp(r+1,c,health+dungeon[r][c]);
+        int right=dp(r,c+1 );
+        int down=dp(r+1,c);
+        boolean flagPositiveResult=true;
+        if(right<0){
+            flagPositiveResult=false;
+            right=Math.abs(right);
+        }
+        if(down<0){
+            flagPositiveResult=false;
+            down=Math.abs(down);
+        }
 
-        memo[r][c][health]=right||down;
-        return  memo[r][c][health];
+        int result=Math.min(right,down);
+        if (flagPositiveResult)
+            return dungeon[r][c]+result;
+        return  dungeon[r][c]+result*-1;
     }
 
 
     public static void main(String[] args) {
-        int [][] dungeon={{-2,-3,3},{-5,-10,1},{10,30,-5}};
+        int [][] dungeon={{-3,5}};
         System.out.println(new LC_174().calculateMinimumHP(dungeon));
     }
 }
