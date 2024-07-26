@@ -43,6 +43,23 @@ public class LIS {
         memory[start][previous]=Math.max(choice1,choice2);
         return memory[start][previous];
     }
+    public void printLis2(int [] sequence,int previous, int start){
+        if ( start==sequence.length)
+            return ;
+        int optimal=lis2(sequence,previous,start);
+
+        int choice1= lis2(sequence,previous,start+1); //leave
+        int choice2=0;
+        if (previous>=sequence.length || sequence[start] >= sequence[previous] )
+            choice2 = 1 + lis2(sequence, start,start+1);
+        if (optimal==choice1){
+            printLis2(sequence, previous, start+1);
+        }
+        else {
+            System.out.print(sequence[start]+" ");   //  print the token number how can i print the numnber i leave 
+            printLis2(sequence, start, start+1);
+        }
+    }
 
     int [] memory1 = new int[50];
     public int lis3(int [] sequence, int start){
@@ -78,6 +95,9 @@ public class LIS {
         System.out.println(new LIS().lis2(array,array.length,0)); // -1 as the initial value for prev makes a problem . solve it flagging
         System.out.println(new LIS().longestIncreasingSubsequence(array));
         System.out.println(new LIS().longestIncreasingSubsequence_improved(array));
+
+        //build output
+        new LIS().printLis2(array,array.length,0);
 
     }
 
