@@ -1,5 +1,8 @@
 package tabulation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LIS {
     int[] memo;
     public int longestIncreasingSubsequence(int[] sequence){
@@ -24,5 +27,36 @@ public class LIS {
             }
         }
         return memo[memo.length-1]-1;  //-1 this one is for the last value (MAX)
+    }
+
+
+    //lis + binary search nlogn n time
+    private int bs(List<Integer> list, int v) {
+        int l = 0, r = list.size() - 1;
+
+        while (l < r) {
+            int mid = (l + r) / 2;
+            int cur = list.get(mid);
+
+            if (cur < v) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
+    public int lisBinarySearch(int [] sequence){
+        List<Integer> list=new ArrayList<>();
+        for (int i =0 ; i<sequence.length ; i++){
+            if (list.isEmpty() || sequence[i]>list.get(list.size()-1)){
+                list.add(sequence[i]);
+            }
+            else {
+                int idx=bs(list,sequence[i]);
+                list.set(idx,sequence[i]);
+            }
+        }
+        return list.size();   //so the longest inc..... is the size of the list 
     }
 }
