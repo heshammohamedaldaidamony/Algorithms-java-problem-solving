@@ -57,6 +57,30 @@ public class LIS {
                 list.set(idx,sequence[i]);
             }
         }
-        return list.size();   //so the longest inc..... is the size of the list 
+        return list.size();   //so the longest inc..... is the size of the list
+    }
+
+
+    //lis 2 choices version
+    public int lis2Tabulation(int [] sequence){
+        int [][] memo = new int[sequence.length][sequence.length];
+        for (int i =sequence.length-1; i>=0 ; i--){
+            for (int prev=0 ; prev<=i ; prev++){
+                if (prev==i)   // just a validation like we did in the recursion version
+                    prev=sequence.length;
+
+                if (i==sequence.length-1){
+
+                }
+                else {
+                    int leave=memo[prev][i+1];
+                    int pick=0;
+                    if (prev==sequence.length || sequence[prev]<= sequence[i])
+                        pick=1+ memo[i][i+1];
+                    memo[prev][i]=Math.max(leave,pick);
+                }
+            }
+        }
+        return memo[0][sequence.length];
     }
 }
