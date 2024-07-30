@@ -4,40 +4,25 @@ import java.util.Arrays;
 
 //general range problem
 public class LC_845 {
-    int[] arr;
-    int[][] memo;
     public int longestMountain(int[] arr) {
-        if (arr.length<3)
+        if (arr.length < 3)
             return 0;
-        this.arr=arr;
-        memo=new int[arr.length][arr.length];
-        for (int[] i:memo)
-            Arrays.fill(i,-1);
 
-        int result=dp(0,arr.length-1);
-        if (result==0) //special case
-            return result;
-        return result+1;
-    }
-    public int dp(int start,int end){
-        if (start==end)
-            return 0;
-        if (memo[start][end]!=-1 )
-            return memo[start][end];
+        int maxLength = 0;
+        for (int i = 1; i < arr.length - 1; i++) {
+            // Check if arr[i] is a peak
+            if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+                int left = i - 1;
+                int right = i + 1;
+                while (left > 0 && arr[left] > arr[left - 1])
+                    left--;
+                while (right < arr.length - 1 && arr[right] > arr[right + 1])
+                    right++;
 
-        int choice1 =0;
-        int choice2=0;
-        int choice3=0;
-        if (arr[start+1]>arr[start] && arr[end-1]>arr[end])
-            choice1=2+dp(start+1,end-1);
-        else {
-            choice2=dp(start+1,end);
-            choice3=dp(start,end-1);
+                maxLength = Math.max(maxLength, right - left + 1);
+            }
         }
-
-
-        memo[start][end]=Math.max(choice1,Math.max(choice2,choice3));
-        return memo[start][end];
+        return maxLength;
     }
 
 
