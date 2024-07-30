@@ -4,24 +4,55 @@ import java.util.Arrays;
 
 //general range problem
 public class LC_845 {
+    int[] arr;
+    int[] longestIncreasingEndingHere;
+    int[] longestDecreasingStartingHere;
     public int longestMountain(int[] arr) {
         if (arr.length < 3)
             return 0;
 
-        int maxLength = 0;
-        for (int i = 1; i < arr.length - 1; i++) {
-            // Check if arr[i] is a peak
-            if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
-                int left = i - 1;
-                int right = i + 1;
-                while (left > 0 && arr[left] > arr[left - 1])
-                    left--;
-                while (right < arr.length - 1 && arr[right] > arr[right + 1])
-                    right++;
+        this.arr = arr;
+        int n = arr.length;
+        longestIncreasingEndingHere = new int[n];
+        longestDecreasingStartingHere = new int[n];
+        Arrays.fill(longestIncreasingEndingHere, -1);
+        Arrays.fill(longestDecreasingStartingHere, -1);
 
-                maxLength = Math.max(maxLength, right - left + 1);
-            }
+        int maxLength = 0;
+        for (int i = 0; i < n; i++) {
+            int inc = findLongestIncreasingEndingHere(i);
+            int dec = findLongestDecreasingStartingHere(i);
+            if (inc > 1 && dec > 1)  // i is a peak
+                maxLength = Math.max(maxLength, inc + dec - 1);
         }
+        return maxLength;
+    }
+
+    private int findLongestIncreasingEndingHere(int i) {
+        if (longestIncreasingEndingHere[i] != -1) {
+            return longestIncreasingEndingHere[i];
+        }
+
+        int maxLength = 1;
+        if (i > 0 && arr[i] > arr[i - 1]) {
+            maxLength = findLongestIncreasingEndingHere(i - 1) + 1;
+        }
+
+        longestIncreasingEndingHere[i] = maxLength;
+        return maxLength;
+    }
+
+    private int findLongestDecreasingStartingHere(int i) {
+        if (longestDecreasingStartingHere[i] != -1) {
+            return longestDecreasingStartingHere[i];
+        }
+
+        int maxLength = 1;
+        if (i < arr.length - 1 && arr[i] > arr[i + 1]) {
+            maxLength = findLongestDecreasingStartingHere(i + 1) + 1;
+        }
+
+        longestDecreasingStartingHere[i] = maxLength;
         return maxLength;
     }
 
