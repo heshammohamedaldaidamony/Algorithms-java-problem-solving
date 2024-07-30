@@ -25,7 +25,7 @@ public class LC_1911 {
             pick = nums[idx] + dp(idx + 1, false);
         else
             pick = -nums[idx] + dp(idx + 1, true);
-        
+
 
         long skip = dp(idx + 1, isEven);
 
