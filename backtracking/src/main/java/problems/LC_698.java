@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class LC_698 {
+    /*
     //the no search for its group
 
     int[] nums;
@@ -37,6 +38,48 @@ public class LC_698 {
                 return true;
             groups[i]-=nums[idx];
         }
+        return false;
+    }
+
+    */
+
+    // fill the group of its numbers
+    int[] nums;
+    int k ;
+    int groupSum;
+    boolean[] visited;
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int totalSum=0;
+        for (int i =0 ;i<nums.length;i++)
+            totalSum+=nums[i];
+        if (totalSum%k!=0)
+            return false;
+
+        groupSum=totalSum/k;
+        this.nums=nums;
+        this.k=k;
+        visited=new boolean[nums.length];
+
+        return canPartition(0,0,0);
+    }
+
+    private boolean canPartition(int groupIdx , int numberIdx , int curSum) {
+        if (groupIdx==k)
+            return true;
+        if (curSum==groupSum)
+            return canPartition(groupIdx+1,0,0);
+        if (numberIdx==nums.length)
+            return false;
+
+        if (!visited[numberIdx] && nums[numberIdx]+curSum<=groupSum){
+            visited[numberIdx]=true;
+            if (canPartition(groupIdx,numberIdx+1,curSum+nums[numberIdx]))
+                return true;
+            visited[numberIdx]=false;
+        }
+        if (canPartition(groupIdx,numberIdx+1,curSum))
+            return true;
+
         return false;
     }
 }
