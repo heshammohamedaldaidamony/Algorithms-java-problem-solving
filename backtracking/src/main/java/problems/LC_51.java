@@ -1,21 +1,28 @@
 package problems;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LC_51 {
     int n ;
     char[][] visited;
+    //an optimization instead of looping in the row and col . i am moving row by row so i dont add 2 Q in the same row so what is matter to check the col
+    boolean[] colVisited;   // all i intersted about is the row itself visited or not (cant add more one Q) so no matter to loop on the whole row
+    boolean[] normalDiagonal;
+    boolean[] antiDiagonal;
     List<List<String>> result=new ArrayList<>();
+
     public List<List<String>> solveNQueens(int n) {
         this.n=n;
+        colVisited=new boolean[n];
+        normalDiagonal=new boolean[2*n-1];
+        antiDiagonal=new boolean[2*n-1];
         visited=new char[n][n];
         for (int i=0 ;i<n ; i++)
             for (int j=0 ; j<n ; j++)
                 visited[i][j]='.';
 
-        solveNQueens(0,n);
+        backtracking(0);
 
 
         return result;
@@ -31,68 +38,25 @@ public class LC_51 {
         }
         result.add(list);
     }
-    public boolean solveNQueens(int r,int noQueens){
-        if (noQueens==0)
+    public boolean backtracking(int r){
+        if (r==n )   // so all Q  added
             return true;
-        if (r==n )
-            return false;
         for (int c=0 ;c<n; c++){
-            if(!validPlace(r,c))
+            int x=r+c;
+            int y = n-1 + r-c ; // a trick to handle the diagnonal like colVisited
+
+            if(colVisited[c] || normalDiagonal[y] || antiDiagonal[x])
                 continue;
             if (visited[r][c]!='Q'){
                 visited[r][c]='Q';
-                if (solveNQueens(r+1,noQueens-1))
+                colVisited[c] = normalDiagonal[y] = antiDiagonal[x] = true;
+                if (backtracking(r+1))
                     createResult();
             }
             visited[r][c]='.';
+            colVisited[c] = normalDiagonal[y] = antiDiagonal[x] = false;
         }
         return false;
-    }
-    public boolean validPlace(int r , int c){
-        for (int i=0 ;i<n;i++){
-            if (i!=c && visited[r][i]=='Q')
-                return false;
-        }
-        for (int i=0 ;i<n;i++){
-            if (i!=r && visited[i][c]=='Q')
-                return false;
-        }
-        //forward diagonal
-        int row=r-1;
-        int col=c+1;
-        while (row>=0 && col<n){
-            if (visited[row][col]=='Q')
-                return false;
-            row--;
-            col++;
-        }
-        row=r+1;
-        col=c-1;
-        while (row<n && col>=0){
-            if (visited[row][col]=='Q')
-                return false;
-            row++;
-            col--;
-        }
-
-        //backward diagonal
-        row=r-1;
-        col=c-1;
-        while (row>=0 && col>=0){
-            if (visited[row][col]=='Q')
-                return false;
-            row--;
-            col--;
-        }
-        row=r+1;
-        col=c+1;
-        while (row<n && col<n){
-            if (visited[row][col]=='Q')
-                return false;
-            row++;
-            col++;
-        }
-        return true;
     }
 
 
